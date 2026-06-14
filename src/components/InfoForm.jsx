@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Modal from './Modal';
 
 // The InfoForm component manages form input states (name, age, gender)
 // and displays a live synchronization preview card.
@@ -10,11 +11,31 @@ export default function InfoForm() {
     age: '',
     gender: '', // Stores 'Male', 'Female', or 'Other'
     occupation: '',
-    bio: ''
+    bio: '',
+    hobby: '',
+    interest: ''
   });
 
   // State to track if form was submitted
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Modal state — controls which alert popup is shown
+  const [modal, setModal] = useState({
+    isOpen: false,
+    type: 'info',
+    title: '',
+    message: ''
+  });
+
+  // Helper: open the modal with given content
+  const showModal = (type, title, message) => {
+    setModal({ isOpen: true, type, title, message });
+  };
+
+  // Helper: close the modal
+  const closeModal = () => {
+    setModal((prev) => ({ ...prev, isOpen: false }));
+  };
 
   // Updates form state dynamically on typing/clicking
   const handleInputChange = (e) => {
@@ -25,14 +46,30 @@ export default function InfoForm() {
     });
   };
 
-  // Triggers when user submits form
+  // Age increment/decrement handlers
+  const handleAgeUp = () => {
+    const current = parseInt(formData.age) || 0;
+    if (current < 120) {
+      setFormData({ ...formData, age: String(current + 1) });
+    }
+  };
+
+  const handleAgeDown = () => {
+    const current = parseInt(formData.age) || 0;
+    if (current > 1) {
+      setFormData({ ...formData, age: String(current - 1) });
+    }
+  };
+
+  // Triggers when user submits form — shows success modal
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.age || !formData.gender) {
-      alert('Please fill out all required fields (*)');
+      showModal('error', 'Missing Fields', 'Please fill out all required fields marked with *.');
       return;
     }
     setIsSubmitted(true);
+    showModal('success', 'Profile Generated!', `Great job, ${formData.name}! Your profile card has been created and is live on the right.`);
   };
 
   // Clears the inputs and resets view
@@ -42,9 +79,16 @@ export default function InfoForm() {
       age: '',
       gender: '',
       occupation: '',
-      bio: ''
+      bio: '',
+      hobby: '',
+      interest: ''
     });
     setIsSubmitted(false);
+  };
+
+  // Download button — shows info modal
+  const handleDownload = () => {
+    showModal('info', 'Download', '📥 Download feature coming soon! Your profile card will be exported as a PDF.');
   };
 
   // Helper to select avatar emoji based on gender
@@ -57,6 +101,16 @@ export default function InfoForm() {
 
   return (
     <section id="builder" className="container main-content">
+
+      {/* Custom Modal — replaces all native alert() calls */}
+      <Modal
+        isOpen={modal.isOpen}
+        type={modal.type}
+        title={modal.title}
+        message={modal.message}
+        onClose={closeModal}
+      />
+
       <div className="form-preview-grid">
 
         {/* LEFT COLUMN: Input Form */}
@@ -82,21 +136,39 @@ export default function InfoForm() {
                   />
                 </div>
 
-                {/* Age Field */}
+                {/* Age Field — Custom +/- buttons instead of native number spinner */}
                 <div className="form-field">
                   <label htmlFor="age">Age *</label>
-                  <input
-                    type="number"
-                    id="age"
-                    name="age"
-                    className="input-text"
-                    placeholder="e.g. 25"
-                    value={formData.age}
-                    onChange={handleInputChange}
-                    min="1"
-                    max="120"
-                    required
-                  />
+                  <div className="age-input-wrapper">
+                    <button
+                      type="button"
+                      className="age-btn age-btn-minus"
+                      onClick={handleAgeDown}
+                      disabled={!formData.age || parseInt(formData.age) <= 1}
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      id="age"
+                      name="age"
+                      className="input-text age-input-field"
+                      placeholder="25"
+                      value={formData.age}
+                      onChange={handleInputChange}
+                      min="1"
+                      max="120"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="age-btn age-btn-plus"
+                      onClick={handleAgeUp}
+                      disabled={parseInt(formData.age) >= 120}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
 
                 {/* Gender Radio buttons */}
@@ -155,6 +227,34 @@ export default function InfoForm() {
                   />
                 </div>
 
+                {/* Hobby Field */}
+                <div className="form-field">
+                  <label htmlFor="hobby">Hobby</label>
+                  <input
+                    type="text"
+                    id="hobby"
+                    name="hobby"
+                    className="input-text"
+                    placeholder="e.g. Photography, Gaming"
+                    value={formData.hobby}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                {/* Interest Field */}
+                <div className="form-field">
+                  <label htmlFor="interest">Interest</label>
+                  <input
+                    type="text"
+                    id="interest"
+                    name="interest"
+                    className="input-text"
+                    placeholder="e.g. AI, Space, Music"
+                    value={formData.interest}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
                 {/* Bio Field */}
                 <div className="form-field">
                   <label htmlFor="bio">Biography</label>
@@ -186,7 +286,7 @@ export default function InfoForm() {
                 <button onClick={handleReset} className="btn btn-secondary">
                   Create New Card
                 </button>
-                <button onClick={() => alert('Download triggered!')} className="btn btn-primary">
+                <button onClick={handleDownload} className="btn btn-primary">
                   Download
                 </button>
               </div>
@@ -240,7 +340,21 @@ export default function InfoForm() {
                 </span>
               </div>
 
-              <div className="preview-item" style={{ flexDirection: 'column', alignItems: 'flex-start', borderBottom: 'none' }}>
+              <div className="preview-item">
+                <span className="preview-label">Hobby</span>
+                <span className="preview-value">
+                  {formData.hobby || <span className="placeholder-text">Not specified</span>}
+                </span>
+              </div>
+
+              <div className="preview-item">
+                <span className="preview-label">Interest</span>
+                <span className="preview-value">
+                  {formData.interest || <span className="placeholder-text">Not specified</span>}
+                </span>
+              </div>
+
+              <div className="preview-item preview-item-last" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <span className="preview-label" style={{ marginBottom: '5px' }}>Bio</span>
                 <span className="preview-value" style={{ fontWeight: 'normal', color: formData.bio ? 'var(--text-white)' : 'var(--text-gray)' }}>
                   {formData.bio || <span className="placeholder-text">User biography details...</span>}

@@ -18,7 +18,7 @@ export default function Header() {
         
         {/* Brand logo */}
         <a href="#home" className="logo">
-          SHV<span>.info</span>
+          urvish<span>.info</span>
         </a>
         
         {/* Navigation links */}

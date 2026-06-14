@@ -8,12 +8,12 @@ export default function Footer() {
         
         {/* Logo link */}
         <a href="#home" className="logo">
-          SHV<span>.info</span>
+          urvish<span>.info</span>
         </a>
         
         {/* Copyright disclaimer */}
         <div className="footer-text">
-          &copy; {new Date().getFullYear()} SHV Info. Simple Single-Page React App.
+          &copy; {new Date().getFullYear()} urvish.info. Simple Single-Page React App.
         </div>
 
       </div>

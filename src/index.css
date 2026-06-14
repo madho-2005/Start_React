@@ -222,6 +222,28 @@ body {
   border-color: var(--primary-color);
 }
 
+/* Fix browser autofill (history suggestion) white background on dark theme.
+   Chrome/Edge ignore background-color on autofilled inputs, so we use a
+   large inset box-shadow to paint over the forced white fill colour. */
+.input-text:-webkit-autofill,
+.input-text:-webkit-autofill:hover,
+.input-text:-webkit-autofill:focus,
+.input-text:-webkit-autofill:active,
+.age-input-field:-webkit-autofill,
+.age-input-field:-webkit-autofill:hover,
+.age-input-field:-webkit-autofill:focus,
+.age-input-field:-webkit-autofill:active {
+  /* Paint the autofill area with our dark card colour */
+  -webkit-box-shadow: 0 0 0 1000px rgba(15, 23, 42, 0.9) inset !important;
+  box-shadow:         0 0 0 1000px rgba(15, 23, 42, 0.9) inset !important;
+  /* Keep text colour white so it stays readable */
+  -webkit-text-fill-color: #f8fafc !important;
+  /* Keep the same subtle border as normal (no highlight on autofill) */
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  /* Slow the transition so the flash is invisible */
+  transition: background-color 9999s ease-in-out 0s;
+}
+
 /* Simplified Radio Buttons layout */
 .radio-group {
   display: flex;
@@ -244,6 +266,81 @@ body {
 
 .radio-option span {
   font-size: 15px;
+}
+
+/* Age input with custom +/- buttons */
+.age-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: rgba(15, 23, 42, 0.5);
+}
+
+.age-input-field {
+  flex: 1;
+  border: none !important;
+  border-radius: 0 !important;
+  text-align: center;
+  /* Solid dark bg — 'transparent' lets the browser paint white on value change */
+  background-color: rgba(15, 23, 42, 0.5) !important;
+  color: var(--text-white);
+}
+
+/* Hide native number input spinner arrows */
+.age-input-field::-webkit-outer-spin-button,
+.age-input-field::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Safari / older Chrome */
+  appearance: none;         /* Standard — modern browsers */
+  margin: 0;
+}
+.age-input-field[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield;      /* Standard — modern browsers */
+}
+
+.age-btn {
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.age-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Minus — red tint */
+.age-btn-minus {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.age-btn-minus:hover:not(:disabled) {
+  background-color: rgba(239, 68, 68, 0.25);
+}
+
+/* Plus — blue tint */
+.age-btn-plus {
+  background-color: rgba(59, 130, 246, 0.12);
+  color: var(--primary-color);
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.age-btn-plus:hover:not(:disabled) {
+  background-color: rgba(59, 130, 246, 0.25);
 }
 
 /* 9. CARD PREVIEW COMPONENT */
@@ -294,6 +391,12 @@ body {
   align-items: center;
   padding-bottom: 10px;
   border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+}
+
+/* Remove the bottom divider line on the very last preview row */
+.preview-item-last {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .preview-label {
@@ -768,4 +871,284 @@ body {
   .event-buttons-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* =========================================
+   15. CUSTOM MODAL (replaces browser alert)
+   ========================================= */
+
+/* Dark semi-transparent full-screen backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0; /* top/right/bottom/left: 0 shorthand */
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: backdropFadeIn 0.2s ease;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* The modal card box */
+.modal-box {
+  background-color: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 36px 32px 28px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: modalSlideIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: scale(0.85) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0);     }
+}
+
+/* Emoji icon circle at the top */
+.modal-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+/* Bold colored title */
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Body message text */
+.modal-message {
+  font-size: 14px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* OK dismiss button */
+.modal-ok-btn {
+  margin-top: 8px;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.modal-ok-btn:hover {
+  opacity: 0.88;
+}
+
+.modal-ok-btn:active {
+  transform: scale(0.97);
+}
+
+/* =========================================
+   16. LIST RENDERING SECTION (Day 8)
+   ========================================= */
+
+/* Two-column layout — add form on left, list on right */
+.list-render-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .list-render-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Top bar inside each list card */
+.list-add-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Coloured badge label */
+.list-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* Item count pill */
+.list-count {
+  font-size: 13px;
+  color: var(--text-gray);
+  font-weight: 500;
+}
+
+/* Monospace code tag hint */
+.list-code-tag {
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--text-gray);
+  opacity: 0.7;
+}
+
+/* Dark code hint box at bottom of add-card */
+.list-code-hint {
+  margin-top: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.list-code-line {
+  font-size: 13px;
+  font-family: monospace;
+  color: var(--text-gray);
+}
+
+/* Styled <select> to match input-text */
+.input-select {
+  cursor: pointer;
+}
+
+.input-select option {
+  background-color: #1e293b;
+  color: var(--text-white);
+}
+
+/* Empty state message */
+.list-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: var(--text-gray);
+  font-size: 14px;
+}
+
+/* The <ul> that .map() renders into */
+.skill-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Scrollbar styling */
+.skill-list::-webkit-scrollbar { width: 4px; }
+.skill-list::-webkit-scrollbar-track { background: transparent; }
+.skill-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+/* Each rendered list item */
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  transition: background 0.2s ease, transform 0.15s ease;
+  animation: skillSlideIn 0.25s ease both;
+}
+
+.skill-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(3px);
+}
+
+@keyframes skillSlideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+/* Array index badge [0], [1] ... */
+.skill-index {
+  font-size: 11px;
+  font-family: monospace;
+  color: #f59e0b;
+  min-width: 24px;
+  font-weight: 700;
+}
+
+/* Emoji icon */
+.skill-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Skill name */
+.skill-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+/* Coloured category pill */
+.skill-category {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* Remove ✕ button */
+.skill-remove-btn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+  flex-shrink: 0;
+}
+
+.skill-remove-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  transform: scale(1.1);
 }

@@ -5,6 +5,7 @@ import InfoForm from './components/InfoForm';
 import Footer from './components/Footer';
 import Card from './components/Card';
 import Counter from './components/Counter';
+import ListRendering from './components/ListRendering';
 
 // The App component acts as the main layout, rendering our separated components.
 function App() {
@@ -47,6 +48,9 @@ function App() {
           <Counter />
         </section>
 
+
+        {/* Day 8 – List Rendering: render array using .map() */}
+        <ListRendering />
 
         {/* Dynamic Form & Preview Card Area */}
         <InfoForm />
