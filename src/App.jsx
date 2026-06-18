@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Card from './components/Card';
 import Counter from './components/Counter';
 import ListRendering from './components/ListRendering';
+import ProductUI from './components/ProductUI';
 
 // The App component acts as the main layout, rendering our separated components.
 function App() {
@@ -51,6 +52,9 @@ function App() {
 
         {/* Day 8 – List Rendering: render array using .map() */}
         <ListRendering />
+
+        {/* Day 9 – Product UI: styled product cards with props + .map() + cart state */}
+        <ProductUI />
 
         {/* Dynamic Form & Preview Card Area */}
         <InfoForm />

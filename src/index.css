@@ -1152,3 +1152,334 @@ body {
   background: rgba(239, 68, 68, 0.25);
   transform: scale(1.1);
 }
+
+/* =========================================
+   17. PRODUCT UI (Day 9)
+   ========================================= */
+
+/* Section wrapper */
+.pc-section {
+  padding: 60px 0 80px;
+}
+
+/* ── Section Header ── */
+.pc-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.pc-header-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.pc-header-title {
+  font-size: 38px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.pc-header-sub {
+  font-size: 15px;
+  color: var(--text-gray);
+}
+
+/* ── Cart Summary Bar ── */
+.pc-cart-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 30px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pc-cart-bar-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+.pc-cart-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pc-cart-bar-items {
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.pc-clear-btn {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pc-clear-btn:hover {
+  background: rgba(239, 68, 68, 0.22);
+}
+
+/* ── Product Cards Grid ── */
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .pc-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .pc-grid {
+    grid-template-columns: 1fr;
+  }
+  .pc-header-title {
+    font-size: 28px;
+  }
+}
+
+/* ── Individual Card ── */
+.pc-card {
+  background-color: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pc-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pc-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.pc-card:hover::before {
+  opacity: 1;
+}
+
+/* Badge */
+.pc-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  align-self: flex-end;
+}
+
+/* Emoji Image Area */
+.pc-image-area {
+  width: 90px;
+  height: 90px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px 0;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.pc-card:hover .pc-image-area {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.pc-emoji {
+  font-size: 44px;
+  line-height: 1;
+}
+
+/* Category Pill */
+.pc-category {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* Product Name */
+.pc-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-white);
+  line-height: 1.3;
+  margin: 2px 0 0;
+}
+
+/* Description */
+.pc-desc {
+  font-size: 12px;
+  color: var(--text-gray);
+  line-height: 1.5;
+}
+
+/* Stars */
+.pc-stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.pc-star {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.pc-star.filled {
+  color: #f59e0b;
+}
+
+.pc-rating-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f59e0b;
+  margin-left: 6px;
+}
+
+.pc-reviews {
+  font-size: 11px;
+  color: var(--text-gray);
+  margin-top: -6px;
+}
+
+/* Price Row */
+.pc-price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.pc-price {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-white);
+}
+
+.pc-original-price {
+  font-size: 14px;
+  color: var(--text-gray);
+  text-decoration: line-through;
+}
+
+.pc-discount-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+/* Add to Cart Button */
+.pc-cart-btn {
+  width: 100%;
+  padding: 11px 0;
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--primary-color);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  margin-top: 4px;
+}
+
+.pc-cart-btn:hover {
+  background: rgba(59, 130, 246, 0.28);
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.2);
+  transform: translateY(-1px);
+}
+
+.pc-cart-btn:active {
+  transform: scale(0.97);
+}
+
+/* "Added!" state */
+.pc-cart-btn--added {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* In‑cart label */
+.pc-in-cart {
+  font-size: 11px;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-family: monospace;
+}
+
+/* ── Code Hint Bar ── */
+.pc-code-hint {
+  margin-top: 36px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 12px 20px;
+  text-align: center;
+}
+
+.pc-code-hint-text {
+  font-size: 13px;
+  color: var(--text-gray);
+}
+
+.pc-code-hint-text code {
+  color: #f59e0b;
+  font-family: monospace;
+}
