@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 // ── Product data array ──────────────────────────────────────────────────
 // Each object has all the props a ProductCard needs.
 // We .map() over this array to render cards — combining Day 4 (Props) + Day 8 (Lists)
+// INR formatter — e.g. 1,66,900
+const inr = (n) => '₹' + n.toLocaleString('en-IN');
+
 const PRODUCTS = [
   {
     id: 1,
@@ -11,8 +14,8 @@ const PRODUCTS = [
     categoryColor: '#3b82f6',
     name: 'MacBook Pro M3',
     description: '16‑inch Liquid Retina XDR, 18GB RAM, 512GB SSD',
-    price: 1999,
-    originalPrice: 2499,
+    price: 166900,
+    originalPrice: 207900,
     rating: 4.9,
     reviews: 2341,
     badge: 'Best Seller',
@@ -25,8 +28,8 @@ const PRODUCTS = [
     categoryColor: '#8b5cf6',
     name: 'iPhone 16 Pro',
     description: '6.3‑inch OLED, A18 Pro chip, 48MP camera system',
-    price: 1199,
-    originalPrice: 1299,
+    price: 119900,
+    originalPrice: 134900,
     rating: 4.8,
     reviews: 5892,
     badge: 'New',
@@ -39,8 +42,8 @@ const PRODUCTS = [
     categoryColor: '#ec4899',
     name: 'Sony WH‑1000XM5',
     description: 'Industry‑leading noise cancelling, 30hr battery',
-    price: 279,
-    originalPrice: 349,
+    price: 23990,
+    originalPrice: 29990,
     rating: 4.7,
     reviews: 8120,
     badge: '20% OFF',
@@ -53,8 +56,8 @@ const PRODUCTS = [
     categoryColor: '#10b981',
     name: 'Apple Watch Ultra 2',
     description: 'Titanium case, GPS + Cellular, 60hr battery',
-    price: 799,
-    originalPrice: 849,
+    price: 66900,
+    originalPrice: 70900,
     rating: 4.6,
     reviews: 1203,
     badge: 'Popular',
@@ -67,8 +70,8 @@ const PRODUCTS = [
     categoryColor: '#f59e0b',
     name: 'LG UltraWide 34"',
     description: '34‑inch curved WQHD, 144Hz, 1ms response time',
-    price: 699,
-    originalPrice: 899,
+    price: 57990,
+    originalPrice: 74990,
     rating: 4.5,
     reviews: 3450,
     badge: 'Sale',
@@ -81,8 +84,8 @@ const PRODUCTS = [
     categoryColor: '#8b5cf6',
     name: 'PS5 DualSense Edge',
     description: 'Pro controller with adaptive triggers & haptic feedback',
-    price: 199,
-    originalPrice: 199,
+    price: 16990,
+    originalPrice: 19990,
     rating: 4.8,
     reviews: 6710,
     badge: 'Top Rated',
@@ -109,6 +112,7 @@ function StarRating({ rating }) {
 }
 
 // ── Single ProductCard ──────────────────────────────────────────────────
+// Props: product data + onAddToCart callback + cartCount from parent
 function ProductCard({ product, onAddToCart, cartCount }) {
   const [added, setAdded] = useState(false);
 
@@ -159,10 +163,10 @@ function ProductCard({ product, onAddToCart, cartCount }) {
 
       {/* Price Row */}
       <div className="pc-price-row">
-        <span className="pc-price">${product.price}</span>
+        <span className="pc-price">{inr(product.price)}</span>
         {discount > 0 && (
           <>
-            <span className="pc-original-price">${product.originalPrice}</span>
+            <span className="pc-original-price">{inr(product.originalPrice)}</span>
             <span className="pc-discount-tag">-{discount}%</span>
           </>
         )}
@@ -177,34 +181,21 @@ function ProductCard({ product, onAddToCart, cartCount }) {
         {added ? '✅ Added!' : '🛒 Add to Cart'}
       </button>
 
-      {/* Cart count indicator */}
+      {/* Cart count indicator — shows how many are in the cart */}
       {cartCount > 0 && (
-        <p className="pc-in-cart">× {cartCount} already in cart</p>
+        <p className="pc-in-cart">× {cartCount} in cart</p>
       )}
     </div>
   );
 }
 
 // ── Main ProductUI Section ──────────────────────────────────────────────
-export default function ProductUI() {
-  // cart: { [productId]: count }
-  const [cart, setCart] = useState({});
-
-  const totalItems = Object.values(cart).reduce((sum, n) => sum + n, 0);
-
-  function addToCart(product) {
-    setCart((prev) => ({
-      ...prev,
-      [product.id]: (prev[product.id] || 0) + 1,
-    }));
-  }
-
-  function clearCart() {
-    setCart({});
-  }
+// Cart state is lifted to App.jsx — receives cart + handlers as props
+export default function ProductUI({ cart, onAddToCart, onOpenCart }) {
 
   return (
     <section className="pc-section container" id="product-ui-section">
+
       {/* Section Header */}
       <div className="pc-header">
         <span className="pc-header-badge">📦 Day 9 · Product UI</span>
@@ -214,48 +205,31 @@ export default function ProductUI() {
         </p>
       </div>
 
-      {/* Cart Summary Bar */}
-      {totalItems > 0 && (
-        <div className="pc-cart-bar" id="cart-summary-bar">
-          <span className="pc-cart-bar-text">
-            🛒 <strong>{totalItems}</strong> item{totalItems !== 1 ? 's' : ''} in cart
-          </span>
-          <div className="pc-cart-bar-actions">
-            <span className="pc-cart-bar-items">
-              {Object.entries(cart)
-                .filter(([, count]) => count > 0)
-                .map(([id, count]) => {
-                  const p = PRODUCTS.find((p) => p.id === Number(id));
-                  return `${p.emoji} ×${count}`;
-                })
-                .join('  ')}
-            </span>
-            <button className="pc-clear-btn" onClick={clearCart} id="clear-cart-btn">
-              Clear Cart
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Product Cards Grid — rendered with .map() */}
       <div className="pc-grid">
         {PRODUCTS.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
-            onAddToCart={addToCart}
+            onAddToCart={onAddToCart}
             cartCount={cart[product.id] || 0}
           />
         ))}
       </div>
 
-      {/* Code hint */}
-      <div className="pc-code-hint">
-        <span className="pc-code-hint-text">
-          💡 <code>PRODUCTS.map(p =&gt; &lt;ProductCard key=&#123;p.id&#125; product=&#123;p&#125; /&gt;)</code>
-          &nbsp;— List Rendering + Props in action
-        </span>
-      </div>
+      {/* View Cart CTA — appears when cart has items */}
+      {Object.values(cart).some((qty) => qty > 0) && (
+        <div className="pc-view-cart-wrap">
+          <button
+            className="pc-view-cart-btn"
+            onClick={onOpenCart}
+            id="view-cart-btn"
+          >
+            🛒 View Cart — {Object.values(cart).reduce((s, n) => s + n, 0)} items
+          </button>
+        </div>
+      )}
+
     </section>
   );
 }

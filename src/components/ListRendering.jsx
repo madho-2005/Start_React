@@ -137,13 +137,7 @@ export default function ListRendering() {
             Add to List
           </button>
 
-          {/* Code hint */}
-          <div className="list-code-hint">
-            <span className="list-code-line">
-              <span style={{ color: '#f59e0b' }}>setSkills</span>
-              {'([...skills, newItem])'}
-            </span>
-          </div>
+
         </div>
 
         {/* ── RIGHT: Rendered list using .map() ── */}
