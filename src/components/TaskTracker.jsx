@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 
+// ── Import task images (Vite resolves & bundles these correctly) ─────────────
+import imgProjectStart from '../assets/task_project_start.png';
+import imgAddToCart    from '../assets/task_add_to_cart.png';
+import imgImproveUI    from '../assets/task_improve_ui.png';
+import imgCodeCleanup  from '../assets/task_code_cleanup.png';
+
 // ── Task data ────────────────────────────────────────────────────────────────
 const INITIAL_TASKS = [
   {
@@ -11,6 +17,7 @@ const INITIAL_TASKS = [
     goal: 'Basic layout ready',
     status: 'Done',
     icon: '🚀',
+    image: imgProjectStart,
   },
   {
     id: 2,
@@ -21,6 +28,7 @@ const INITIAL_TASKS = [
     goal: 'Cart count updates',
     status: 'Done',
     icon: '🛒',
+    image: imgAddToCart,
   },
   {
     id: 3,
@@ -31,6 +39,7 @@ const INITIAL_TASKS = [
     goal: 'Better design',
     status: 'Done',
     icon: '🎨',
+    image: imgImproveUI,
   },
   {
     id: 4,
@@ -41,6 +50,7 @@ const INITIAL_TASKS = [
     goal: 'Clean code',
     status: 'Done',
     icon: '🧹',
+    image: imgCodeCleanup,
   },
 ];
 
@@ -88,14 +98,19 @@ function TaskRow({ task, onStatusChange, index }) {
       id={`task-row-${task.id}`}
       style={{ animationDelay: `${index * 0.08}s` }}
     >
-      {/* Icon + Name */}
+      {/* Image + Name */}
       <div className="tt-col tt-col-name">
-        <span className="tt-row-icon">{task.icon}</span>
+        <div className="tt-row-img-wrap" style={{ borderColor: `${task.typeColor}50` }}>
+          <img
+            src={task.image}
+            alt={task.name}
+            className="tt-row-img"
+          />
+        </div>
         <div className="tt-name-stack">
-          <span className={`tt-task-name ${isDone ? 'tt-task-name--done' : ''}`}>
+          <span className="tt-task-name">
             {task.name}
           </span>
-          {isDone && <span className="tt-done-line" aria-hidden="true" />}
         </div>
       </div>
 

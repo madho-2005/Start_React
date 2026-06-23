@@ -72,12 +72,9 @@ export default function ListRendering() {
       />
 
       {/* Section heading */}
-      <h2 style={{ textAlign: 'center', marginBottom: '8px', color: 'var(--text-white)' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '30px', color: 'var(--text-white)' }}>
         📋 List Rendering
       </h2>
-      <p style={{ textAlign: 'center', color: 'var(--text-gray)', marginBottom: '30px' }}>
-        Array rendered with <code>.map()</code> · add &amp; remove items dynamically
-      </p>
 
       <div className="list-render-grid">
 

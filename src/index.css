@@ -608,6 +608,29 @@ body {
   margin-bottom: 4px;
 }
 
+/* Real image wrapper for Our Products cards */
+.product-card-img-wrap {
+  width: 100%;
+  height: 160px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.product-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.product-card:hover .product-card-img {
+  transform: scale(1.07);
+}
+
 /* Title prop displayed here */
 .product-card-title {
   font-size: 18px;
@@ -1418,25 +1441,40 @@ body {
 
 /* Emoji Image Area */
 .pc-image-area {
-  width: 90px;
-  height: 90px;
-  border-radius: 20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 4px 0;
   border: 1px solid rgba(255, 255, 255, 0.06);
   transition: transform 0.3s ease;
+  overflow: hidden;
 }
 
 .pc-card:hover .pc-image-area {
-  transform: scale(1.08) rotate(-3deg);
+  transform: scale(1.06);
+}
+
+/* Real product photo — fills the image area */
+.pc-product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.pc-card:hover .pc-product-img {
+  transform: scale(1.08);
 }
 
 .pc-emoji {
   font-size: 44px;
   line-height: 1;
 }
+
 
 /* Category Pill */
 .pc-category {
@@ -1585,6 +1623,11 @@ body {
   color: #f59e0b;
   font-family: monospace;
 }
+
+
+
+/* ── Section Header ── */
+
 
 /* =========================================
    18. TASK TRACKER COMPONENT
@@ -1817,6 +1860,41 @@ body {
   font-size: 20px;
   flex-shrink: 0;
   filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* ── Task row image thumbnail ── */
+.tt-row-img-wrap {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tt-row:hover .tt-row-img-wrap {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.tt-row-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 4px;
+}
+
+.tt-row-icon-fallback {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
 }
 
 /* ── Name stack ── */

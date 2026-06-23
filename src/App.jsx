@@ -10,6 +10,11 @@ import ProductUI from './components/ProductUI';
 import TaskTracker from './components/TaskTracker';
 import CartDrawer from './components/CartDrawer';
 
+// ── Course card images ───────────────────────────────────────────────────────
+import imgReact      from './assets/course_react.png';
+import imgJavaScript from './assets/course_javascript.png';
+import imgFullStack  from './assets/course_fullstack.png';
+
 // The App component acts as the main layout.
 // Cart state is lifted here so Header, ProductUI, and CartDrawer all share it.
 function App() {
@@ -86,13 +91,10 @@ function App() {
         {/* Day 4 – Props Usage: 3 dynamic cards with title & price passed as props */}
         <section className="container" style={{ padding: '40px 0' }}>
           <h2 className="section-heading">🛒 Our Products</h2>
-          <p className="section-sub">
-            Props in action — each card receives a unique <code>title</code> &amp; <code>price</code>
-          </p>
           <div className="cards-grid">
-            <Card title="React Course" price="499" />
-            <Card title="JavaScript Pro" price="799" />
-            <Card title="Full Stack Bundle" price="1299" />
+            <Card title="React Course"       price="499"  image={imgReact}      />
+            <Card title="JavaScript Pro"     price="799"  image={imgJavaScript} />
+            <Card title="Full Stack Bundle"  price="1299" image={imgFullStack}  />
           </div>
         </section>
 

@@ -1,12 +1,18 @@
 import React from 'react';
 
-// Card component accepts title and price as props
+// Card component accepts title, price, and image as props
 // This demonstrates Day 4: Props Usage — passing data into components
-export default function Card({ title, price }) {
+export default function Card({ title, price, image, emoji = '🛍️' }) {
   return (
     <div className="product-card">
-      {/* Card Icon / Thumbnail placeholder */}
-      <div className="product-card-icon">🛍️</div>
+      {/* Card Image / Thumbnail */}
+      <div className="product-card-img-wrap">
+        {image ? (
+          <img src={image} alt={title} className="product-card-img" />
+        ) : (
+          <span className="product-card-icon">{emoji}</span>
+        )}
+      </div>
 
       {/* Title passed via props */}
       <h3 className="product-card-title">{title}</h3>

@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
 
+// ── Import product images (Vite resolves & bundles these correctly) ──────────
+import imgMacbook        from '../assets/product_macbook.png';
+import imgIphone         from '../assets/product_iphone.png';
+import imgSonyHeadphones from '../assets/product_sony_headphones.png';
+import imgAppleWatch     from '../assets/product_apple_watch.png';
+import imgLgMonitor      from '../assets/product_lg_monitor.png';
+import imgPs5Controller  from '../assets/product_ps5_controller.png';
+
 // ── Product data array ──────────────────────────────────────────────────
 // Each object has all the props a ProductCard needs.
 // We .map() over this array to render cards — combining Day 4 (Props) + Day 8 (Lists)
@@ -10,6 +18,7 @@ const PRODUCTS = [
   {
     id: 1,
     emoji: '💻',
+    image: imgMacbook,
     category: 'Electronics',
     categoryColor: '#3b82f6',
     name: 'MacBook Pro M3',
@@ -24,6 +33,7 @@ const PRODUCTS = [
   {
     id: 2,
     emoji: '📱',
+    image: imgIphone,
     category: 'Mobile',
     categoryColor: '#8b5cf6',
     name: 'iPhone 16 Pro',
@@ -38,6 +48,7 @@ const PRODUCTS = [
   {
     id: 3,
     emoji: '🎧',
+    image: imgSonyHeadphones,
     category: 'Audio',
     categoryColor: '#ec4899',
     name: 'Sony WH‑1000XM5',
@@ -52,6 +63,7 @@ const PRODUCTS = [
   {
     id: 4,
     emoji: '⌚',
+    image: imgAppleWatch,
     category: 'Wearable',
     categoryColor: '#10b981',
     name: 'Apple Watch Ultra 2',
@@ -66,6 +78,7 @@ const PRODUCTS = [
   {
     id: 5,
     emoji: '🖥️',
+    image: imgLgMonitor,
     category: 'Monitor',
     categoryColor: '#f59e0b',
     name: 'LG UltraWide 34"',
@@ -80,6 +93,7 @@ const PRODUCTS = [
   {
     id: 6,
     emoji: '🎮',
+    image: imgPs5Controller,
     category: 'Gaming',
     categoryColor: '#8b5cf6',
     name: 'PS5 DualSense Edge',
@@ -115,6 +129,7 @@ function StarRating({ rating }) {
 // Props: product data + onAddToCart callback + cartCount from parent
 function ProductCard({ product, onAddToCart, cartCount }) {
   const [added, setAdded] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   function handleAdd() {
     onAddToCart(product);
@@ -138,9 +153,18 @@ function ProductCard({ product, onAddToCart, cartCount }) {
         {product.badge}
       </span>
 
-      {/* Product Image / Emoji Area */}
+      {/* Product Image Area */}
       <div className="pc-image-area" style={{ background: `${product.categoryColor}12` }}>
-        <span className="pc-emoji">{product.emoji}</span>
+        {!imgError ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="pc-product-img"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <span className="pc-emoji">{product.emoji}</span>
+        )}
       </div>
 
       {/* Category pill */}
@@ -200,9 +224,6 @@ export default function ProductUI({ cart, onAddToCart, onOpenCart }) {
       <div className="pc-header">
         <span className="pc-header-badge">📦 Day 9 · Product UI</span>
         <h2 className="pc-header-title gradient-title">Styled Product Cards</h2>
-        <p className="pc-header-sub">
-          <code>products.map()</code> renders each card · Props pass data · <code>useState</code> tracks the cart
-        </p>
       </div>
 
       {/* Product Cards Grid — rendered with .map() */}
