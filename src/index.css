@@ -30,6 +30,10 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden; /* prevent horizontal scroll / right-side gap on mobile */
+}
+
 body {
   background-color: var(--bg-dark);
   background-image:
@@ -40,6 +44,8 @@ body {
   font-family: var(--font-family);
   line-height: 1.6;
   padding: 0;
+  overflow-x: hidden; /* belt-and-suspenders: also clip on body */
+  width: 100%;         /* never exceed viewport width */
 }
 
 /* 3. LAYOUT UTILITIES */
@@ -144,14 +150,13 @@ body {
 
 /* 5. HEADER SECTION */
 .navbar {
-  background-color: rgba(8, 13, 26, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background-color: #080d1a;  /* solid — no transparency */
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   position: sticky;
   top: 0;
   z-index: 100;
   height: 68px;
+  width: 100%;                /* never wider than viewport */
   display: flex;
   align-items: center;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.4);
@@ -2555,28 +2560,54 @@ body {
 /* ── Navbar ── */
 @media (max-width: 640px) {
   .navbar {
-    height: auto;
-    padding: 10px 0;
+    height: 56px;              /* fixed compact height on mobile */
+    padding: 0;
+    width: 100%;               /* never overflow viewport */
+    max-width: 100vw;
+    overflow: hidden;          /* clip anything that bleeds out */
   }
 
   .navbar-container {
-    flex-wrap: wrap;
-    gap: 8px;
+    display: flex;
+    flex-wrap: nowrap;         /* single row — no wrapping */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 16px;
+    gap: 0;
   }
 
-  /* Hide nav links on very small screens to prevent overflow */
+  /* Logo stays left */
+  .logo {
+    flex-shrink: 0;
+    font-size: 17px;
+  }
+
+  /* Hide nav links — too wide for mobile */
   .nav-menu {
     display: none;
   }
 
+  /* Actions pinned right */
   .navbar-actions {
+    flex-shrink: 0;
     gap: 8px;
+    margin-left: auto;         /* push to far right */
   }
 
-  /* Shrink "Get Started" button on mobile */
+  /* Compact cart button */
+  .nav-cart-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  /* Compact "Get Started" button */
   .navbar-actions .btn {
-    padding: 8px 14px;
-    font-size: 13px;
+    padding: 7px 12px;
+    font-size: 12px;
+    border-radius: 8px;
+    white-space: nowrap;
   }
 }
 
