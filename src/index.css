@@ -2539,3 +2539,278 @@ body {
   }
 }
 
+
+/* =========================================
+   21. MOBILE RESPONSIVE OVERRIDES
+   Only CSS fixes — no component changes
+   ========================================= */
+
+/* ── Global container ── */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* ── Navbar ── */
+@media (max-width: 640px) {
+  .navbar {
+    height: auto;
+    padding: 10px 0;
+  }
+
+  .navbar-container {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Hide nav links on very small screens to prevent overflow */
+  .nav-menu {
+    display: none;
+  }
+
+  .navbar-actions {
+    gap: 8px;
+  }
+
+  /* Shrink "Get Started" button on mobile */
+  .navbar-actions .btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+
+/* ── Hero Section ── */
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 60px 0 40px;
+  }
+
+  .hero-section h1 {
+    font-size: 30px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-section h1 {
+    font-size: 26px;
+  }
+}
+
+/* ── Section Headings ── */
+@media (max-width: 640px) {
+  .section-heading {
+    font-size: 22px;
+  }
+}
+
+/* ── Our Products Cards grid (Day 4) ── */
+@media (max-width: 640px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Counter Card ── */
+@media (max-width: 480px) {
+  .counter-card {
+    padding: 28px 16px;
+    max-width: 100%;
+  }
+
+  .counter-display {
+    width: 110px;
+    height: 110px;
+    font-size: 56px;
+  }
+}
+
+/* ── Success Buttons (Form) ── */
+@media (max-width: 480px) {
+  .success-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .success-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+/* ── Form Preview Grid (InfoForm) ── */
+@media (max-width: 640px) {
+  .form-preview-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-bottom: 50px;
+  }
+
+  .form-title {
+    font-size: 20px;
+  }
+}
+
+/* ── List Rendering Grid ── */
+@media (max-width: 640px) {
+  .list-render-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* ── Product UI (Day 9) ── */
+@media (max-width: 640px) {
+  .pc-header-title {
+    font-size: 26px;
+  }
+
+  .pc-cart-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .pc-cart-bar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pc-view-cart-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .pc-code-hint {
+    padding: 10px 14px;
+  }
+}
+
+/* ── Task Tracker ── */
+@media (max-width: 640px) {
+  .tt-header-title {
+    font-size: 24px;
+  }
+
+  /* Stack table rows as cards */
+  .tt-table-head {
+    display: none; /* hide header row — data shown in row itself */
+  }
+
+  .tt-table-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .tt-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: none; /* remove hairline, use outer border instead */
+  }
+
+  .tt-row:last-child {
+    border-bottom: none;
+  }
+
+  /* Show all columns in stacked layout */
+  .tt-col-desc,
+  .tt-col-goal,
+  .tt-col-type {
+    display: flex !important;
+  }
+
+  .tt-col {
+    padding-right: 0;
+    width: 100%;
+  }
+
+  .tt-col-name {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .tt-progress-wrap {
+    padding: 14px 16px;
+  }
+
+  .tt-progress-legend {
+    gap: 10px;
+  }
+}
+
+/* ── Cart Drawer item on very small screens ── */
+@media (max-width: 380px) {
+  .cd-item {
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto auto;
+    gap: 8px;
+  }
+
+  .cd-qty-controls {
+    grid-column: 1 / -1;
+  }
+
+  .cd-item-total {
+    grid-column: 1 / -1;
+    text-align: right;
+  }
+}
+
+/* ── Footer ── */
+@media (max-width: 640px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .footer-links {
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .page-footer {
+    padding: 30px 0;
+    margin-top: 40px;
+  }
+}
+
+/* ── Event buttons grid on mobile ── */
+@media (max-width: 640px) {
+  .event-card {
+    padding: 28px 16px;
+  }
+}
+
+/* ── Section padding tweaks on mobile ── */
+@media (max-width: 640px) {
+  .pc-section {
+    padding: 40px 0 60px;
+  }
+
+  .tt-section {
+    padding: 40px 0 60px;
+  }
+
+  .hero-section {
+    padding: 50px 0 36px;
+  }
+}
